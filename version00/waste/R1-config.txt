@@ -1,0 +1,17 @@
+hostname R1
+enable password cisco
+username matin password cisco
+line vty 0 4
+login loca
+transport input all
+int g0/0
+ip address dhcp
+no shutdown
+interface loopback0
+ip address 1.1.1.1 255.255.255.255
+interface loopback1
+ip address 2.2.2.2 255.255.255.255
+router ospf 1
+network 0.0.0.0 255.255.255.255 area 0
+end
+

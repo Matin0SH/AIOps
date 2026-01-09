@@ -1,0 +1,30 @@
+{
+  "devices": [
+    {
+      "device_id": "Edge-R1",
+      "device_class": "router",
+      "host": "192.168.56.101",
+      "port": 5000,
+      "credentials": {
+        "enable_secret": "cisco",
+        "delay_factor": 2,
+        "timeout": 60
+      },
+      "location": "Edge",
+      "role": "WAN Router"
+    },
+    {
+      "device_id": "CORE-SW1",
+      "device_class": "switch",
+      "host": "192.168.56.101",
+      "port": 5002,
+      "credentials": {
+        "enable_secret": "cisco",
+        "delay_factor": 2,
+        "timeout": 60
+      },
+      "location": "Core",
+      "role": "L3 Core Switch"
+    }
+  ]
+}

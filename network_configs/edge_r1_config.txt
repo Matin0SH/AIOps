@@ -1,0 +1,61 @@
+!
+! EDGE-R1 Configuration
+! Role: Edge Router with router-on-a-stick
+!
+hostname EDGE-R1
+service password-encryption
+!
+enable secret cisco
+username admin privilege 15 secret cisco
+!
+! Domain name (required for SSH/RSA)
+ip domain-name aiops.local
+!
+! Physical interface (trunk to MANAGEMENT switch)
+interface GigabitEthernet0/0
+ description *** Trunk to MANAGEMENT Switch ***
+ no shutdown
+!
+! Router-on-a-stick subinterface for VLAN 10
+interface GigabitEthernet0/0.10
+ description *** Management VLAN Gateway ***
+ encapsulation dot1Q 10
+ ip address 10.10.10.1 255.255.255.0
+!
+! Loopback for OSPF router-id
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+! DHCP exclusions for static/reserved addresses
+ip dhcp excluded-address 10.10.10.1 10.10.10.20
+!
+! DHCP pool for management VLAN
+ip dhcp pool MGMT
+ network 10.10.10.0 255.255.255.0
+ default-router 10.10.10.1
+ dns-server 8.8.8.8
+!
+! OSPF configuration
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ passive-interface Loopback0
+ network 10.10.10.0 0.0.0.255 area 0
+ network 1.1.1.1 0.0.0.0 area 0
+ passive-interface default
+ no passive-interface GigabitEthernet0/0.10
+!
+! Enable CDP
+cdp run
+!
+! SSH configuration
+ip ssh version 2
+!
+! VTY access
+line vty 0 4
+ login local
+ transport input ssh
+!
+end
+wr mem
+!

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(if not exist \"doc_claude\" mkdir doc_claude)",
+      "Bash(mkdir:*)",
+      "Bash(wc:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(grep:*)",
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

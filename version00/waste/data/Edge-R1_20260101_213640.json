@@ -1,0 +1,144 @@
+{
+  "device_id": "Edge-R1",
+  "device_type": "router",
+  "timestamp": "2026-01-01T21:36:06.527875Z",
+  "commands": {
+    "show version": {
+      "raw": null,
+      "parsed": [
+        {
+          "software_image": "VIOS-ADVENTERPRISEK9-M",
+          "version": "15.9(3)M6",
+          "release": "fc1",
+          "rommon": "Bootstrap",
+          "hostname": "R1",
+          "uptime": "36 minutes",
+          "uptime_years": "",
+          "uptime_weeks": "",
+          "uptime_days": "",
+          "uptime_hours": "",
+          "uptime_minutes": "36",
+          "reload_reason": "Unknown reason",
+          "running_image": "/vios-adventerprisek9-m",
+          "hardware": [
+            "IOSv"
+          ],
+          "serial": [
+            "9I1LBUI0KEIP79FKENTEC"
+          ],
+          "config_register": "0x0",
+          "mac_address": [],
+          "restarted": ""
+        }
+      ],
+      "status": "success"
+    },
+    "show ip interface brief": {
+      "raw": null,
+      "parsed": [
+        {
+          "interface": "GigabitEthernet0/0",
+          "ip_address": "10.10.10.1",
+          "status": "up",
+          "proto": "up"
+        },
+        {
+          "interface": "GigabitEthernet0/1",
+          "ip_address": "unassigned",
+          "status": "administratively down",
+          "proto": "down"
+        },
+        {
+          "interface": "GigabitEthernet0/2",
+          "ip_address": "unassigned",
+          "status": "administratively down",
+          "proto": "down"
+        },
+        {
+          "interface": "GigabitEthernet0/3",
+          "ip_address": "unassigned",
+          "status": "administratively down",
+          "proto": "down"
+        }
+      ],
+      "status": "success"
+    },
+    "show ip route": {
+      "raw": null,
+      "parsed": [
+        {
+          "vrf": "",
+          "protocol": "C",
+          "type": "",
+          "network": "10.10.10.0",
+          "prefix_length": "30",
+          "distance": "",
+          "metric": "",
+          "nexthop_ip": "",
+          "nexthop_vrf": "",
+          "nexthop_if": "GigabitEthernet0/0",
+          "uptime": "",
+          "flag": ""
+        },
+        {
+          "vrf": "",
+          "protocol": "L",
+          "type": "",
+          "network": "10.10.10.1",
+          "prefix_length": "32",
+          "distance": "",
+          "metric": "",
+          "nexthop_ip": "",
+          "nexthop_vrf": "",
+          "nexthop_if": "GigabitEthernet0/0",
+          "uptime": "",
+          "flag": ""
+        }
+      ],
+      "status": "success"
+    },
+    "show ip ospf neighbor": {
+      "raw": "\nR1#",
+      "parsed": null,
+      "status": "success"
+    },
+    "show ip ospf interface brief": {
+      "raw": "R1#",
+      "parsed": null,
+      "status": "success"
+    },
+    "show cdp neighbors detail": {
+      "raw": null,
+      "parsed": [
+        {
+          "neighbor_name": "SW1.lab.local",
+          "mgmt_address": "10.10.10.2",
+          "platform": "Cisco ",
+          "neighbor_interface": "GigabitEthernet0/0",
+          "local_interface": "GigabitEthernet0/0",
+          "neighbor_description": "Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20200924:215240) [sweickge-sep24-2020-l2iol-release 135]",
+          "capabilities": "Router Switch IGMP"
+        }
+      ],
+      "status": "success"
+    },
+    "show running-config | section router ospf": {
+      "raw": "",
+      "parsed": null,
+      "status": "success"
+    },
+    "show ip protocols": {
+      "raw": "*** IP Routing is NSF aware ***\n\nRouting Protocol is \"application\"\n  Sending updates every 0 seconds\n  Invalid after 0 seconds, hold down 0, flushed after 0\n  Outgoing update filter list for all interfaces is not set\n  Incoming update filter list for all interfaces is not set\n  Maximum path: 32\n  Routing for Networks:\n\n  Routing Information Sources:\n    Gateway         Distance      Last Update\n  Distance: (default is 4)\n\nR1#",
+      "parsed": null,
+      "status": "success"
+    },
+    "show memory statistics": {
+      "raw": "                Head    Total(b)     Used(b)     Free(b)   Lowest(b)  Largest(b)\nProcessor    D056034   584991692    65233472   519758220   503420732   502386764\n      I/O    9356034    63963136    52718488    11244648    11212064    11092784\nR1#",
+      "parsed": null,
+      "status": "success"
+    }
+  },
+  "facts": {},
+  "status": "failed",
+  "error": "'list' object has no attribute 'get'"
+}

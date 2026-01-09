@@ -1,0 +1,85 @@
+{
+  "device": {
+    "hostname": "EDGE-R1",
+    "type": "router",
+    "snapshot_id": "2026-01-04T10:05:59.691341"
+  },
+  "interfaces": [
+    {
+      "interface": "GigabitEthernet0/0",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "up",
+      "protocol": "up"
+    },
+    {
+      "interface": "GigabitEthernet0/0.10",
+      "ip_address": "10.10.10.1",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "up",
+      "protocol": "up"
+    },
+    {
+      "interface": "GigabitEthernet0/1",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "administratively down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet0/2",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "administratively down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet0/3",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "administratively down",
+      "protocol": "down"
+    },
+    {
+      "interface": "Loopback0",
+      "ip_address": "1.1.1.1",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "up",
+      "protocol": "up"
+    }
+  ],
+  "cdp_neighbors": [
+    {
+      "neighbor_device": "MANAGEMENT",
+      "neighbor_ip": "10.10.10.10",
+      "platform": "Cisco",
+      "capabilities": "Router Switch IGMP",
+      "local_interface": "GigabitEthernet0/0",
+      "neighbor_interface": "GigabitEthernet0/1"
+    }
+  ],
+  "ospf_neighbors": [
+    {
+      "neighbor_id": "2.2.2.2",
+      "priority": "1",
+      "state": "FULL/DROTHER",
+      "dead_time": "00:00:37",
+      "address": "10.10.10.2",
+      "interface": "GigabitEthernet0/0.10"
+    },
+    {
+      "neighbor_id": "3.3.3.3",
+      "priority": "1",
+      "state": "FULL/DR",
+      "dead_time": "00:00:31",
+      "address": "10.10.10.3",
+      "interface": "GigabitEthernet0/0.10"
+    }
+  ]
+}

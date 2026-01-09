@@ -1,0 +1,284 @@
+{
+  "device": {
+    "hostname": "ACC-SW1",
+    "type": "switch",
+    "snapshot_id": "2026-01-04T10:17:13.473361"
+  },
+  "interfaces": [
+    {
+      "interface": "GigabitEthernet0/0",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet0/1",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "up",
+      "protocol": "up"
+    },
+    {
+      "interface": "GigabitEthernet0/2",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "up",
+      "protocol": "up"
+    },
+    {
+      "interface": "GigabitEthernet0/3",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "administratively down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet1/0",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet1/1",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet1/2",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet1/3",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet2/0",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet2/1",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet2/2",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet2/3",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet3/0",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet3/1",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet3/2",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "GigabitEthernet3/3",
+      "ip_address": "unassigned",
+      "ok": "YES",
+      "method": "unset",
+      "status": "down",
+      "protocol": "down"
+    },
+    {
+      "interface": "Vlan10",
+      "ip_address": "10.10.10.4",
+      "ok": "YES",
+      "method": "NVRAM",
+      "status": "up",
+      "protocol": "up"
+    }
+  ],
+  "cdp_neighbors": [
+    {
+      "neighbor_device": "CORE-SW2.aiops.local",
+      "neighbor_ip": "10.10.10.3",
+      "platform": "Cisco",
+      "capabilities": "Router Switch IGMP",
+      "local_interface": "GigabitEthernet0/2",
+      "neighbor_interface": "GigabitEthernet1/0"
+    },
+    {
+      "neighbor_device": "CORE-SW1.aiops.local",
+      "neighbor_ip": "10.10.10.2",
+      "platform": "Cisco",
+      "capabilities": "Router Switch IGMP",
+      "local_interface": "GigabitEthernet0/1",
+      "neighbor_interface": "GigabitEthernet1/0"
+    }
+  ],
+  "vlans": [
+    {
+      "vlan_id": "1",
+      "name": "default",
+      "status": "active",
+      "ports": "Gi0/0, Gi1/0, Gi1/1, Gi1/2, Gi1/3, Gi2/0, Gi2/1, Gi2/2, Gi2/3, Gi3/0, Gi3/1, Gi3/2, Gi3/3"
+    },
+    {
+      "vlan_id": "10",
+      "name": "MANAGEMENT",
+      "status": "active",
+      "ports": "Gi0/3"
+    },
+    {
+      "vlan_id": "1002",
+      "name": "fddi-default",
+      "status": "act/unsup",
+      "ports": ""
+    },
+    {
+      "vlan_id": "1003",
+      "name": "token-ring-default",
+      "status": "act/unsup",
+      "ports": ""
+    },
+    {
+      "vlan_id": "1004",
+      "name": "fddinet-default",
+      "status": "act/unsup",
+      "ports": ""
+    },
+    {
+      "vlan_id": "1005",
+      "name": "trnet-default",
+      "status": "act/unsup",
+      "ports": ""
+    }
+  ],
+  "trunks": [
+    {
+      "port": "Gi0/1",
+      "mode": "on",
+      "encapsulation": "802.1q",
+      "status": "trunking",
+      "native_vlan": "1",
+      "vlans_allowed": "10",
+      "vlans_active": "10",
+      "vlans_forwarding": "10"
+    },
+    {
+      "port": "Gi0/2",
+      "mode": "on",
+      "encapsulation": "802.1q",
+      "status": "trunking",
+      "native_vlan": "1",
+      "vlans_allowed": "10",
+      "vlans_active": "10",
+      "vlans_forwarding": "none"
+    }
+  ],
+  "mac_addresses": [
+    {
+      "vlan": "10",
+      "mac_address": "0c36.3aa6.800a",
+      "type": "DYNAMIC",
+      "port": "Gi0/1"
+    },
+    {
+      "vlan": "10",
+      "mac_address": "0c5f.7289.0000",
+      "type": "DYNAMIC",
+      "port": "Gi0/1"
+    },
+    {
+      "vlan": "10",
+      "mac_address": "0ca7.6ee2.0004",
+      "type": "DYNAMIC",
+      "port": "Gi0/1"
+    },
+    {
+      "vlan": "10",
+      "mac_address": "0ca7.6ee2.800a",
+      "type": "DYNAMIC",
+      "port": "Gi0/1"
+    }
+  ],
+  "spanning_tree": {
+    "config": {
+      "mode": "rapid-pvst",
+      "root_bridge_for": "VLAN0001",
+      "extended_system_id": "enabled",
+      "portfast_default": "disabled",
+      "portfast_bpdu_guard": "disabled",
+      "portfast_bpdu_filter": "disabled",
+      "loopguard": "disabled",
+      "bridge_assurance": "enabled",
+      "etherchannel_misconfig_guard": "enabled",
+      "pathcost_method": "short",
+      "uplinkfast": "disabled",
+      "backbonefast": "disabled"
+    },
+    "vlan_stats": [
+      {
+        "vlan": "VLAN0001",
+        "blocking": "0",
+        "listening": "0",
+        "learning": "0",
+        "forwarding": "13",
+        "stp_active": "13"
+      },
+      {
+        "vlan": "VLAN0010",
+        "blocking": "1",
+        "listening": "0",
+        "learning": "0",
+        "forwarding": "1",
+        "stp_active": "2"
+      }
+    ]
+  },
+  "ospf_neighbors": []
+}

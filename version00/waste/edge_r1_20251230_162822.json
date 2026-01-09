@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-12-30T16:28:21.539495",
+  "device": "EDGE-R1",
+  "commands": {
+    "show cdp neighbors detail": "Invalid arguments\n\n",
+    "show ip interface brief": "\n\u001b[1mshow\u001b[0m [\u001b[4mARG\u001b[0m]\n  Show information for ARG\n    ARG:\n       \u001b[1marp\u001b[0m                Show arp table\n       \u001b[1mdump\u001b[0m               Show dump flags \n       \u001b[1mecho\u001b[0m               Show the status of the echo flag. See \u001b[1mset echo ?\u001b[0m\n       \u001b[1mhistory\u001b[0m            List the command history\n       \u001b[1mip\u001b[0m [\u001b[1mall\u001b[0m]           Show IPv4 details\n                          Shows VPC Name, IP address, mask, gateway, DNS, MAC, \n                          lport, rhost:rport and MTU\n       \u001b[1mipv6\u001b[0m [\u001b[1mall\u001b[0m]         Show IPv6 details\n                          Shows VPC Name, IPv6 addresses/mask, gateway, MAC,\n                          lport, rhost:rport and MTU\n       \u001b[1mversion\u001b[0m            Show the version information\n\n  Notes: \n  1. If no parameter is given, the key information of the current VPC will be\n     displayed\n  2. If 'all' parameter is given for \u001b[1mip\u001b[0m/\u001b[1mipv6\u001b[0m a reduced view in tablular\n     format will be displayed.\n\n",
+    "show ip route": "\n\u001b[1mshow ip\u001b[0m [\u001b[1mall\u001b[0m]\n  Show IPv4 details for including:\n  VPC Name, IP address, mask, gateway, DNS, MAC, lport, rhost:rport and MTU.\n  (reduced view in tablular format if 'all' option used)\n\n",
+    "show processes cpu": "Invalid arguments\n\n"
+  }
+}

@@ -1,0 +1,646 @@
+{
+  "version": "1.0",
+  "purpose": "Semantically retrievable CONFIG-SET notebooks (templated changes). No show commands. Designed for deterministic execution with strict parameter validation.",
+  "execution_contract": {
+    "mode": "config_set",
+    "requires_validation": true,
+    "default_risk": "medium",
+    "notes": [
+      "Executor must validate all params (regex/IP/CIDR ranges) before rendering commands.",
+      "Executor should support 'dry_run' and 'requires_approval' gates per notebook.",
+      "Executor should optionally support rollback_commands if apply fails."
+    ]
+  },
+  "notebooks": [
+    {
+      "id": "cfg_set_hostname",
+      "title": "Set device hostname",
+      "description": "Sets or updates the device's hostname for network identification and management access. The hostname appears in CLI prompts and is used in DNS resolution. Requires RFC-compliant alphanumeric format with hyphens allowed. Essential baseline configuration for any network device.",
+      "semantic_tags": ["hostname", "identity", "baseline"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "medium",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["hostname"],
+        "properties": {
+          "hostname": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9\\-]{0,62}$" }
+        }
+      },
+      "config_commands": [
+        "hostname ${hostname}"
+      ],
+      "rollback_commands": [
+        "no hostname"
+      ]
+    },
+    {
+      "id": "cfg_enable_service_password_encryption",
+      "title": "Enable service password-encryption",
+      "description": "Encrypts all passwords stored in running and startup configurations using reversible service password encryption (type 7). Obfuscates plaintext passwords in config files and memory. Low-risk hardening measure that improves security posture without operational impact. Should be enabled as part of baseline security configuration.",
+      "semantic_tags": ["password-encryption", "baseline", "hardening"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "low",
+      "requires_approval": false,
+      "params_schema": { "type": "object", "additionalProperties": false, "properties": {} },
+      "config_commands": [
+        "service password-encryption"
+      ],
+      "rollback_commands": [
+        "no service password-encryption"
+      ]
+    },
+    {
+      "id": "cfg_set_enable_secret",
+      "title": "Set enable secret",
+      "description": "Configures the encrypted privileged exec password (enable secret) for gaining privileged access to the device. Uses irreversible MD5 hashing (default) or stronger algorithms. High-risk change requiring approval and careful password management. Must be strong (8+ characters) and kept in secure vault. Critical for device access control.",
+      "semantic_tags": ["enable-secret", "privilege", "hardening", "auth"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["secret"],
+        "properties": {
+          "secret": { "type": "string", "minLength": 8, "maxLength": 128 }
+        }
+      },
+      "config_commands": [
+        "enable secret ${secret}"
+      ],
+      "rollback_commands": [
+        "no enable secret"
+      ]
+    },
+    {
+      "id": "cfg_create_local_admin_user",
+      "title": "Create/update local privileged user",
+      "description": "Creates or updates a local AAA user account with specified privilege level and encrypted secret password. Privilege level 15 grants full admin access. Used for local authentication before implementing TACACS+/RADIUS. Highly sensitive change requiring approval and secure password storage. Essential for multi-user access control and audit trails.",
+      "semantic_tags": ["username", "local-user", "aaa", "admin", "privilege-15", "auth"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["username", "privilege", "secret"],
+        "properties": {
+          "username": { "type": "string", "pattern": "^[A-Za-z0-9_\\-\\.]{1,32}$" },
+          "privilege": { "type": "integer", "minimum": 1, "maximum": 15 },
+          "secret": { "type": "string", "minLength": 8, "maxLength": 128 }
+        }
+      },
+      "config_commands": [
+        "username ${username} privilege ${privilege} secret ${secret}"
+      ],
+      "rollback_commands": [
+        "no username ${username}"
+      ]
+    },
+    {
+      "id": "cfg_set_domain_name",
+      "title": "Set IP domain name (for SSH/RSA)",
+      "description": "Configures the IP domain name for the device, used for generating RSA key pairs and DNS name resolution. Required prerequisite before enabling SSH v2. Domain name should match your organization's FQDN. Essential for secure management access and certificate generation. Medium-risk baseline security configuration.",
+      "semantic_tags": ["domain-name", "ssh", "rsa", "baseline"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "medium",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["domain_name"],
+        "properties": {
+          "domain_name": { "type": "string", "pattern": "^[A-Za-z0-9\\-\\.]{3,253}$" }
+        }
+      },
+      "config_commands": [
+        "ip domain-name ${domain_name}"
+      ],
+      "rollback_commands": [
+        "no ip domain-name ${domain_name}"
+      ]
+    },
+    {
+      "id": "cfg_enable_ssh_v2_and_vty_ssh_only",
+      "title": "Enable SSH v2 and restrict VTY to SSH with local login",
+      "description": "Enables SSH version 2 protocol and restricts virtual terminal lines to SSH-only access with local user authentication. Disables Telnet and other insecure protocols. Critical hardening configuration for secure remote management. Requires domain-name, RSA keys, and local users to be pre-configured. High-risk change with potential for lockout if prerequisites missing.",
+      "semantic_tags": ["ssh", "vty", "transport-input", "login-local", "remote-access", "hardening"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["vty_start", "vty_end"],
+        "properties": {
+          "vty_start": { "type": "integer", "minimum": 0, "maximum": 15 },
+          "vty_end": { "type": "integer", "minimum": 0, "maximum": 15 }
+        }
+      },
+      "config_commands": [
+        "ip ssh version 2",
+        "line vty ${vty_start} ${vty_end}",
+        "login local",
+        "transport input ssh",
+        "exit"
+      ],
+      "rollback_commands": [
+        "line vty ${vty_start} ${vty_end}",
+        "transport input all",
+        "no login local",
+        "exit",
+        "no ip ssh version 2"
+      ]
+    },
+    {
+      "id": "cfg_enable_cdp",
+      "title": "Enable CDP globally",
+      "description": "Enables Cisco Discovery Protocol globally on the device to advertise and discover neighboring Cisco equipment. Useful for network topology discovery, neighbor relationships, and automated inventory. Low-risk change with minimal operational impact. Can be disabled per-interface if needed for security reasons.",
+      "semantic_tags": ["cdp", "discovery", "topology", "neighbors"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "low",
+      "requires_approval": false,
+      "params_schema": { "type": "object", "additionalProperties": false, "properties": {} },
+      "config_commands": [
+        "cdp run"
+      ],
+      "rollback_commands": [
+        "no cdp run"
+      ]
+    },
+    {
+      "id": "cfg_no_shutdown_interface_with_description",
+      "title": "Bring up interface and set description",
+      "description": "Activates a physical or logical interface and assigns a human-readable description for documentation. Description appears in show commands and helps with operational visibility. High-risk if applied to uplinks or critical paths without planning. Essential for bringing infrastructure online and improving network documentation standards.",
+      "semantic_tags": ["interface", "no-shutdown", "description", "uplink"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["interface", "description"],
+        "properties": {
+          "interface": { "type": "string", "pattern": "^[A-Za-z]+[A-Za-z0-9/\\.]+$" },
+          "description": { "type": "string", "minLength": 1, "maxLength": 100 }
+        }
+      },
+      "config_commands": [
+        "interface ${interface}",
+        "description ${description}",
+        "no shutdown",
+        "exit"
+      ],
+      "rollback_commands": [
+        "interface ${interface}",
+        "shutdown",
+        "no description",
+        "exit"
+      ]
+    },
+    {
+      "id": "cfg_roas_subinterface_gateway",
+      "title": "Configure router-on-a-stick subinterface (dot1Q + IP gateway)",
+      "description": "Creates a dot1Q subinterface for VLAN routing on a single physical link (router-on-a-stick architecture). Assigns an IP address as the VLAN gateway for inter-VLAN routing. High-risk configuration change affecting traffic routing and VLAN connectivity. Requires careful VLAN ID planning and parent interface activation. Common pattern for medium-scale networks.",
+      "semantic_tags": ["router-on-a-stick", "subinterface", "dot1q", "vlan", "gateway", "inter-vlan"],
+      "device_scope": ["router"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["parent_interface", "vlan_id", "ip_address", "subnet_mask", "description"],
+        "properties": {
+          "parent_interface": { "type": "string", "pattern": "^[A-Za-z]+[A-Za-z0-9/]+$" },
+          "vlan_id": { "type": "integer", "minimum": 1, "maximum": 4094 },
+          "ip_address": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "subnet_mask": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "description": { "type": "string", "minLength": 1, "maxLength": 100 }
+        }
+      },
+      "config_commands": [
+        "interface ${parent_interface}.${vlan_id}",
+        "description ${description}",
+        "encapsulation dot1Q ${vlan_id}",
+        "ip address ${ip_address} ${subnet_mask}",
+        "no shutdown",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no interface ${parent_interface}.${vlan_id}"
+      ]
+    },
+    {
+      "id": "cfg_loopback_interface",
+      "title": "Create/update Loopback interface with /32 IP",
+      "description": "Creates or updates a logical Loopback interface with a /32 host address. Used as stable router ID for OSPF/BGP and for management IP stability independent of physical link status. Essential for routing protocol stability and management access resilience. Medium-risk, non-disruptive change that improves network stability.",
+      "semantic_tags": ["loopback", "router-id", "ospf", "management"],
+      "device_scope": ["router", "switch"],
+      "risk": "medium",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["loopback_id", "ip_address"],
+        "properties": {
+          "loopback_id": { "type": "integer", "minimum": 0, "maximum": 1023 },
+          "ip_address": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" }
+        }
+      },
+      "config_commands": [
+        "interface Loopback${loopback_id}",
+        "ip address ${ip_address} 255.255.255.255",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no interface Loopback${loopback_id}"
+      ]
+    },
+    {
+      "id": "cfg_dhcp_excluded_range",
+      "title": "Configure DHCP excluded address range",
+      "description": "Reserves a range of IP addresses in the DHCP pool to prevent automatic assignment. Used for static IPs (servers, gateways, infrastructure). Multiple exclusion ranges can be configured. Medium-risk change that prevents IP conflicts in managed networks. Essential for any DHCP-enabled environment.",
+      "semantic_tags": ["dhcp", "excluded-address", "reservations", "ip-allocation"],
+      "device_scope": ["router", "switch"],
+      "risk": "medium",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["start_ip", "end_ip"],
+        "properties": {
+          "start_ip": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "end_ip": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" }
+        }
+      },
+      "config_commands": [
+        "ip dhcp excluded-address ${start_ip} ${end_ip}"
+      ],
+      "rollback_commands": [
+        "no ip dhcp excluded-address ${start_ip} ${end_ip}"
+      ]
+    },
+    {
+      "id": "cfg_dhcp_pool_basic",
+      "title": "Create DHCP pool (network, default-router, DNS)",
+      "description": "Creates a DHCP pool with network scope, default gateway, and DNS server addresses. Clients in that subnet requesting IP via DHCP will receive address and infrastructure settings from this pool. High-risk configuration affecting client network configuration. Requires careful IP planning and must not conflict with excluded ranges. Core service for client networks.",
+      "semantic_tags": ["dhcp", "pool", "default-router", "dns-server", "mgmt-vlan"],
+      "device_scope": ["router", "switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pool_name", "network", "subnet_mask", "default_router", "dns_server"],
+        "properties": {
+          "pool_name": { "type": "string", "pattern": "^[A-Za-z0-9_\\-]{1,32}$" },
+          "network": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "subnet_mask": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "default_router": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "dns_server": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" }
+        }
+      },
+      "config_commands": [
+        "ip dhcp pool ${pool_name}",
+        "network ${network} ${subnet_mask}",
+        "default-router ${default_router}",
+        "dns-server ${dns_server}",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no ip dhcp pool ${pool_name}"
+      ]
+    },
+    {
+      "id": "cfg_ospf_process_base",
+      "title": "Create/update OSPF process with router-id and adjacency logging",
+      "description": "Initializes or updates an OSPF routing process with explicit router-id and enables adjacency change logging. Router-id determines the OSPF router identifier (typically derived from loopback IP). Adjacency logging helps troubleshoot neighbor relationships. High-risk IGP configuration affecting network routing. Essential for OSPF-based networks.",
+      "semantic_tags": ["ospf", "igp", "router-id", "log-adjacency-changes"],
+      "device_scope": ["router", "switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["process_id", "router_id"],
+        "properties": {
+          "process_id": { "type": "integer", "minimum": 1, "maximum": 65535 },
+          "router_id": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" }
+        }
+      },
+      "config_commands": [
+        "router ospf ${process_id}",
+        "router-id ${router_id}",
+        "log-adjacency-changes",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no router ospf ${process_id}"
+      ]
+    },
+    {
+      "id": "cfg_ospf_network_statement",
+      "title": "Add OSPF network statement to an area",
+      "description": "Advertises an IP network into a specific OSPF area using network statement with wildcard mask. Enables OSPF on matching interfaces in that area. High-risk change directly affecting routing topology and convergence. Multiple statements can define multi-area OSPF. Essential for expanding OSPF domain or adding new subnets.",
+      "semantic_tags": ["ospf", "network", "wildcard", "area"],
+      "device_scope": ["router", "switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["process_id", "network", "wildcard", "area"],
+        "properties": {
+          "process_id": { "type": "integer", "minimum": 1, "maximum": 65535 },
+          "network": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "wildcard": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "area": { "type": "integer", "minimum": 0, "maximum": 4294967295 }
+        }
+      },
+      "config_commands": [
+        "router ospf ${process_id}",
+        "network ${network} ${wildcard} area ${area}",
+        "exit"
+      ],
+      "rollback_commands": [
+        "router ospf ${process_id}",
+        "no network ${network} ${wildcard} area ${area}",
+        "exit"
+      ]
+    },
+    {
+      "id": "cfg_ospf_passive_default_enable",
+      "title": "Set OSPF passive-interface default",
+      "description": "Enables passive-interface mode by default for all OSPF interfaces. Prevents OSPF hello packets from being sent, disabling adjacencies unless explicitly enabled. Hardening measure reducing unnecessary traffic and exposure. Requires explicit 'no passive-interface' on links where adjacency is needed. High-risk configuration requiring careful planning.",
+      "semantic_tags": ["ospf", "passive-interface", "hardening", "igp"],
+      "device_scope": ["router", "switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["process_id"],
+        "properties": {
+          "process_id": { "type": "integer", "minimum": 1, "maximum": 65535 }
+        }
+      },
+      "config_commands": [
+        "router ospf ${process_id}",
+        "passive-interface default",
+        "exit"
+      ],
+      "rollback_commands": [
+        "router ospf ${process_id}",
+        "no passive-interface default",
+        "exit"
+      ]
+    },
+    {
+      "id": "cfg_ospf_no_passive_interface",
+      "title": "Enable OSPF adjacency on a specific interface (no passive-interface)",
+      "description": "Exempts a specific interface from passive-interface mode, allowing OSPF hello packets and neighbor adjacencies. Used after setting passive-interface default to selectively enable OSPF on desired interfaces. High-risk for routing if wrong interface selected. Must be coordinated with network topology plan.",
+      "semantic_tags": ["ospf", "no-passive-interface", "adjacency", "interface"],
+      "device_scope": ["router", "switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["process_id", "interface"],
+        "properties": {
+          "process_id": { "type": "integer", "minimum": 1, "maximum": 65535 },
+          "interface": { "type": "string", "pattern": "^[A-Za-z]+[A-Za-z0-9/\\.]+$" }
+        }
+      },
+      "config_commands": [
+        "router ospf ${process_id}",
+        "no passive-interface ${interface}",
+        "exit"
+      ],
+      "rollback_commands": [
+        "router ospf ${process_id}",
+        "passive-interface ${interface}",
+        "exit"
+      ]
+    },
+    {
+      "id": "cfg_create_vlan",
+      "title": "Create VLAN and set name",
+      "description": "Creates a new Layer 2 VLAN and assigns a descriptive name for identification. VLANs segment broadcast domains and improve network organization. Medium-risk configuration that by itself doesn't affect traffic until interfaces are assigned. Name should be meaningful for documentation. Essential for any segmented switched network.",
+      "semantic_tags": ["vlan", "l2", "segmentation", "management-vlan"],
+      "device_scope": ["switch"],
+      "risk": "medium",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["vlan_id", "vlan_name"],
+        "properties": {
+          "vlan_id": { "type": "integer", "minimum": 1, "maximum": 4094 },
+          "vlan_name": { "type": "string", "minLength": 1, "maxLength": 32 }
+        }
+      },
+      "config_commands": [
+        "vlan ${vlan_id}",
+        "name ${vlan_name}",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no vlan ${vlan_id}"
+      ]
+    },
+    {
+      "id": "cfg_create_svi",
+      "title": "Create SVI with IP and bring it up",
+      "description": "Creates a Switch Virtual Interface (SVI) for Layer 3 switching on a specific VLAN. SVI serves as the default gateway for that VLAN's hosts. Requires IP routing to be enabled. High-risk configuration affecting inter-VLAN routing and host connectivity. IP address must not conflict with other SVIs or DHCP pools.",
+      "semantic_tags": ["svi", "interface-vlan", "management", "l3-switching"],
+      "device_scope": ["switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["vlan_id", "ip_address", "subnet_mask", "description"],
+        "properties": {
+          "vlan_id": { "type": "integer", "minimum": 1, "maximum": 4094 },
+          "ip_address": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "subnet_mask": { "type": "string", "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}$" },
+          "description": { "type": "string", "minLength": 1, "maxLength": 100 }
+        }
+      },
+      "config_commands": [
+        "interface Vlan${vlan_id}",
+        "description ${description}",
+        "ip address ${ip_address} ${subnet_mask}",
+        "no shutdown",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no interface Vlan${vlan_id}"
+      ]
+    },
+    {
+      "id": "cfg_enable_ip_routing",
+      "title": "Enable IP routing on a multilayer switch",
+      "description": "Activates the Layer 3 routing capability on a multilayer switch, allowing it to forward traffic between different subnets/VLANs. Critical prerequisite for inter-VLAN routing and SVIs. High-risk configuration affecting network segmentation. May have performance implications depending on hardware. Essential for modern switched networks.",
+      "semantic_tags": ["ip-routing", "l3-switch", "routing"],
+      "device_scope": ["switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": { "type": "object", "additionalProperties": false, "properties": {} },
+      "config_commands": [
+        "ip routing"
+      ],
+      "rollback_commands": [
+        "no ip routing"
+      ]
+    },
+    {
+      "id": "cfg_configure_trunk_allowed_vlans",
+      "title": "Configure trunk port and allowed VLAN list",
+      "description": "Configures a switch port as a dot1Q trunk and specifies which VLANs are permitted across the link. Used for uplinks to other switches or routers. Allows multiple VLANs on a single physical link via VLAN tagging. High-risk if applied to wrong port or with incorrect VLAN list. Critical for multi-VLAN connectivity.",
+      "semantic_tags": ["trunk", "dot1q", "allowed-vlan", "uplink", "l2"],
+      "device_scope": ["switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["interface", "allowed_vlans", "description"],
+        "properties": {
+          "interface": { "type": "string", "pattern": "^[A-Za-z]+[A-Za-z0-9/]+$" },
+          "allowed_vlans": { "type": "string", "pattern": "^[0-9,\\-]+$" },
+          "description": { "type": "string", "minLength": 1, "maxLength": 100 }
+        }
+      },
+      "config_commands": [
+        "interface ${interface}",
+        "description ${description}",
+        "switchport trunk encapsulation dot1q",
+        "switchport mode trunk",
+        "switchport trunk allowed vlan ${allowed_vlans}",
+        "no shutdown",
+        "exit"
+      ],
+      "rollback_commands": [
+        "interface ${interface}",
+        "shutdown",
+        "no switchport trunk allowed vlan ${allowed_vlans}",
+        "no switchport mode trunk",
+        "no description",
+        "exit"
+      ]
+    },
+    {
+      "id": "cfg_create_port_channel_trunk",
+      "title": "Create Port-Channel as trunk and allow VLANs",
+      "description": "Creates a logical Port-Channel (EtherChannel) interface configured as a dot1Q trunk. Aggregates multiple physical links for redundancy and bandwidth. Physical member interfaces must be configured separately. High-risk change affecting link topology and bandwidth. Essential for resilient uplinks and trunk aggregation.",
+      "semantic_tags": ["port-channel", "etherchannel", "lacp", "trunk", "uplink"],
+      "device_scope": ["switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["port_channel_id", "allowed_vlans", "description"],
+        "properties": {
+          "port_channel_id": { "type": "integer", "minimum": 1, "maximum": 128 },
+          "allowed_vlans": { "type": "string", "pattern": "^[0-9,\\-]+$" },
+          "description": { "type": "string", "minLength": 1, "maxLength": 100 }
+        }
+      },
+      "config_commands": [
+        "interface Port-channel${port_channel_id}",
+        "description ${description}",
+        "switchport trunk encapsulation dot1q",
+        "switchport mode trunk",
+        "switchport trunk allowed vlan ${allowed_vlans}",
+        "no shutdown",
+        "exit"
+      ],
+      "rollback_commands": [
+        "no interface Port-channel${port_channel_id}"
+      ]
+    },
+    {
+      "id": "cfg_add_interface_to_port_channel_lacp",
+      "title": "Add interface to Port-Channel with LACP active",
+      "description": "Adds a physical interface as a member of a Port-Channel bundle using LACP (active mode). The interface must be configured with matching trunk settings. Multiple interfaces can be bundled for redundancy and load-sharing. High-risk configuration affecting interface state. Prerequisites: Port-Channel must exist; physical interface should have trunk config.",
+      "semantic_tags": ["etherchannel", "lacp", "channel-group", "member", "bundle"],
+      "device_scope": ["switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["interface", "port_channel_id", "description", "allowed_vlans"],
+        "properties": {
+          "interface": { "type": "string", "pattern": "^[A-Za-z]+[A-Za-z0-9/]+$" },
+          "port_channel_id": { "type": "integer", "minimum": 1, "maximum": 128 },
+          "description": { "type": "string", "minLength": 1, "maxLength": 100 },
+          "allowed_vlans": { "type": "string", "pattern": "^[0-9,\\-]+$" }
+        }
+      },
+      "config_commands": [
+        "interface ${interface}",
+        "description ${description}",
+        "switchport trunk encapsulation dot1q",
+        "switchport mode trunk",
+        "switchport trunk allowed vlan ${allowed_vlans}",
+        "channel-group ${port_channel_id} mode active",
+        "no shutdown",
+        "exit"
+      ],
+      "rollback_commands": [
+        "interface ${interface}",
+        "no channel-group ${port_channel_id}",
+        "shutdown",
+        "no description",
+        "exit"
+      ]
+    },
+    {
+      "id": "cfg_set_stp_mode_and_vlan_priority",
+      "title": "Configure STP mode and VLAN priority",
+      "description": "Sets the Spanning Tree Protocol mode globally and configures VLAN bridge priority to influence root bridge selection. Lower priority value increases likelihood of becoming root. RSTP (Rapid PVST+) is recommended for faster convergence. High-risk change affecting network loop prevention and convergence behavior. Requires careful planning in multi-switch networks.",
+      "semantic_tags": ["stp", "rapid-pvst", "priority", "loop-prevention", "vlan"],
+      "device_scope": ["switch"],
+      "risk": "high",
+      "requires_approval": true,
+      "params_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mode", "vlan_id", "priority"],
+        "properties": {
+          "mode": { "type": "string", "enum": ["rapid-pvst", "pvst", "mst"] },
+          "vlan_id": { "type": "integer", "minimum": 1, "maximum": 4094 },
+          "priority": { "type": "integer", "enum": [0, 4096, 8192, 12288, 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, 61440] }
+        }
+      },
+      "config_commands": [
+        "spanning-tree mode ${mode}",
+        "spanning-tree vlan ${vlan_id} priority ${priority}"
+      ],
+      "rollback_commands": [
+        "no spanning-tree vlan ${vlan_id} priority ${priority}"
+      ]
+    },
+    {
+      "id": "cfg_write_memory",
+      "title": "Save running configuration (write memory)",
+      "description": "Commits the running configuration to non-volatile memory (startup-config), persisting all changes across device reboots. Without this step, changes are lost on power-off or reload. Medium-risk operation that should only be done after successful validation. Should be the final step in any configuration change sequence.",
+      "semantic_tags": ["save", "write-mem", "persist", "commit"],
+      "device_scope": ["router", "switch", "any"],
+      "risk": "medium",
+      "requires_approval": true,
+      "params_schema": { "type": "object", "additionalProperties": false, "properties": {} },
+      "config_commands": [
+        "end",
+        "wr mem"
+      ],
+      "rollback_commands": []
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+!
+! CORE-SW1 Configuration
+! Role: Access L2 Switch with Management SVI
+!
+hostname CORE-SW1
+service password-encryption
+!
+enable secret cisco
+username admin privilege 15 secret cisco
+!
+ip domain-name aiops.local
+!
+ip routing
+!
+! VLAN configuration
+vlan 10
+ name MANAGEMENT
+!
+! Management SVI
+interface Vlan10
+ description *** Management SVI ***
+ ip address 10.10.10.2 255.255.255.0
+ no shutdown
+!
+! STP configuration - backup root
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10 priority 28672
+!
+! Trunk to MANAGEMENT
+interface GigabitEthernet0/1
+ description *** Trunk to MANAGEMENT ***
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+!
+! PortChannel to CORE-SW2
+interface Port-channel1
+ description *** PortChannel to CORE-SW2 ***
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+!
+interface GigabitEthernet0/2
+ description *** PortChannel Member to CORE-SW2 ***
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ channel-group 1 mode active
+ no shutdown
+!
+interface GigabitEthernet0/3
+ description *** PortChannel Member to CORE-SW2 ***
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ channel-group 1 mode active
+ no shutdown
+!
+! Trunk to ACC-SW1
+interface GigabitEthernet1/0
+ description *** Trunk to ACC-SW1 ***
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+!
+! Trunk to ACC-SW2 (Cross-Connect)
+interface GigabitEthernet1/1
+ description *** Trunk to ACC-SW2 (Cross-Connect) ***
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10
+ no shutdown
+!
+! OSPF configuration
+router ospf 1
+ router-id 2.2.2.2
+ log-adjacency-changes
+ passive-interface default
+ no passive-interface Vlan10
+ network 10.10.10.0 0.0.0.255 area 0
+!
+! Enable CDP
+cdp run
+!
+! VTY access
+line vty 0 4
+ login local
+ transport input ssh
+!
+! Generate RSA keys for SSH
+crypto key generate rsa modulus 2048
+ip ssh version 2
+!
+end
+wr mem
+!

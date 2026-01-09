@@ -1,0 +1,346 @@
+{
+  "timestamp": "2026-01-01T21:40:10.780554Z",
+  "device_count": 2,
+  "devices": {
+    "Edge-R1": {
+      "device_id": "Edge-R1",
+      "device_type": "router",
+      "timestamp": "2026-01-01T21:38:58.813352Z",
+      "commands": {
+        "show version": {
+          "raw": null,
+          "parsed": [
+            {
+              "software_image": "VIOS-ADVENTERPRISEK9-M",
+              "version": "15.9(3)M6",
+              "release": "fc1",
+              "rommon": "Bootstrap",
+              "hostname": "R1",
+              "uptime": "39 minutes",
+              "uptime_years": "",
+              "uptime_weeks": "",
+              "uptime_days": "",
+              "uptime_hours": "",
+              "uptime_minutes": "39",
+              "reload_reason": "Unknown reason",
+              "running_image": "/vios-adventerprisek9-m",
+              "hardware": [
+                "IOSv"
+              ],
+              "serial": [
+                "9I1LBUI0KEIP79FKENTEC"
+              ],
+              "config_register": "0x0",
+              "mac_address": [],
+              "restarted": ""
+            }
+          ],
+          "status": "success"
+        },
+        "show ip interface brief": {
+          "raw": null,
+          "parsed": [
+            {
+              "interface": "GigabitEthernet0/0",
+              "ip_address": "10.10.10.1",
+              "status": "up",
+              "proto": "up"
+            },
+            {
+              "interface": "GigabitEthernet0/1",
+              "ip_address": "unassigned",
+              "status": "administratively down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet0/2",
+              "ip_address": "unassigned",
+              "status": "administratively down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet0/3",
+              "ip_address": "unassigned",
+              "status": "administratively down",
+              "proto": "down"
+            }
+          ],
+          "status": "success"
+        },
+        "show ip route": {
+          "raw": null,
+          "parsed": [
+            {
+              "vrf": "",
+              "protocol": "C",
+              "type": "",
+              "network": "10.10.10.0",
+              "prefix_length": "30",
+              "distance": "",
+              "metric": "",
+              "nexthop_ip": "",
+              "nexthop_vrf": "",
+              "nexthop_if": "GigabitEthernet0/0",
+              "uptime": "",
+              "flag": ""
+            },
+            {
+              "vrf": "",
+              "protocol": "L",
+              "type": "",
+              "network": "10.10.10.1",
+              "prefix_length": "32",
+              "distance": "",
+              "metric": "",
+              "nexthop_ip": "",
+              "nexthop_vrf": "",
+              "nexthop_if": "GigabitEthernet0/0",
+              "uptime": "",
+              "flag": ""
+            }
+          ],
+          "status": "success"
+        },
+        "show ip ospf neighbor": {
+          "raw": "R1#\n",
+          "parsed": null,
+          "status": "success"
+        },
+        "show ip ospf interface brief": {
+          "raw": "",
+          "parsed": null,
+          "status": "success"
+        },
+        "show cdp neighbors detail": {
+          "raw": null,
+          "parsed": [
+            {
+              "neighbor_name": "SW1.lab.local",
+              "mgmt_address": "",
+              "platform": "Cisco ",
+              "neighbor_interface": "GigabitEthernet0/0",
+              "local_interface": "GigabitEthernet0/0",
+              "neighbor_description": "Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20200924:215240) [sweickge-sep24-2020-l2iol-release 135]",
+              "capabilities": "Router Switch IGMP"
+            }
+          ],
+          "status": "success"
+        },
+        "show running-config | section router ospf": {
+          "raw": "",
+          "parsed": null,
+          "status": "success"
+        },
+        "show ip protocols": {
+          "raw": "*** IP Routing is NSF aware ***\n\nRouting Protocol is \"application\"\n  Sending updates every 0 seconds\n  Invalid after 0 seconds, hold down 0, flushed after 0\n  Outgoing update filter list for all interfaces is not set\n  Incoming update filter list for all interfaces is not set\n  Maximum path: 32\n  Routing for Networks:\n  Routing Information Sources:\n    Gateway         Distance      Last Update\n  Distance: (default is 4)\n\nR1#",
+          "parsed": null,
+          "status": "success"
+        },
+        "show memory statistics": {
+          "raw": "\n                Head    Total(b)     Used(b)     Free(b)   Lowest(b)  Largest(b)\nProcessor    D056034   584991692    65233472   519758220   503420732   502386764\n      I/O    9356034    63963136    52718488    11244648    11212064    11092784\nR1#",
+          "parsed": null,
+          "status": "success"
+        }
+      },
+      "facts": {},
+      "status": "failed",
+      "error": "'list' object has no attribute 'get'"
+    },
+    "CORE-SW1": {
+      "device_id": "CORE-SW1",
+      "device_type": "switch",
+      "timestamp": "2026-01-01T21:39:36.123742Z",
+      "commands": {
+        "show version": {
+          "raw": null,
+          "parsed": [
+            {
+              "software_image": "",
+              "version": "",
+              "release": "",
+              "rommon": "Bootstrap",
+              "hostname": "SW1",
+              "uptime": "32 minutes",
+              "uptime_years": "",
+              "uptime_weeks": "",
+              "uptime_days": "",
+              "uptime_hours": "",
+              "uptime_minutes": "32",
+              "reload_reason": "Unknown reason",
+              "running_image": "/vios_l2-adventerprisek9-m",
+              "hardware": [
+                "IOSv"
+              ],
+              "serial": [
+                "9OVDUK1656A"
+              ],
+              "config_register": "0x101",
+              "mac_address": [],
+              "restarted": ""
+            }
+          ],
+          "status": "success"
+        },
+        "show ip interface brief": {
+          "raw": null,
+          "parsed": [
+            {
+              "interface": "GigabitEthernet0/0",
+              "ip_address": "unassigned",
+              "status": "up",
+              "proto": "up"
+            },
+            {
+              "interface": "GigabitEthernet0/1",
+              "ip_address": "unassigned",
+              "status": "up",
+              "proto": "up"
+            },
+            {
+              "interface": "GigabitEthernet0/2",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet0/3",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet1/0",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet1/1",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet1/2",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet1/3",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet2/0",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet2/1",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet2/2",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet2/3",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet3/0",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet3/1",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet3/2",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "GigabitEthernet3/3",
+              "ip_address": "unassigned",
+              "status": "down",
+              "proto": "down"
+            },
+            {
+              "interface": "Vlan10",
+              "ip_address": "10.10.10.2",
+              "status": "up",
+              "proto": "up"
+            }
+          ],
+          "status": "success"
+        },
+        "show vlan brief": {
+          "error": "State Error raised. Rule Line: 140. Input Line: SW1#",
+          "status": "failed"
+        },
+        "show interfaces trunk": {
+          "raw": "",
+          "parsed": null,
+          "status": "success"
+        },
+        "show interfaces status": {
+          "error": "State Error raised. Rule Line: 27. Input Line: SW1#",
+          "status": "failed"
+        },
+        "show spanning-tree summary": {
+          "raw": "Switch is in pvst mode\nRoot bridge for: VLAN0001, VLAN0010\nExtended system ID                      is enabled\n\nPortfast Default                        is disabled\nPortfast Edge BPDU Guard Default        is disabled\n\nPortfast Edge BPDU Filter Default       is disabled\nLoopguard Default                       is disabled\nPVST Simulation Default                 is enabled but inactive in pvst mode\nBridge Assurance                        is enabled but inactive in pvst mode\nEtherChannel misconfig guard            is enabled\nConfigured Pathcost method used is short\nUplinkFast                              is disabled\nBackboneFast                            is disabled\n\nName                   Blocking Listening Learning Forwarding STP Active\n---------------------- -------- --------- -------- ---------- ----------\nVLAN0001                     0         0        0         15         15\nVLAN0010                     0         0        0          1          1\n---------------------- -------- --------- -------- ---------- ----------\n\n2 vlans                      0         0        0         16         16\nSW1#\n",
+          "parsed": null,
+          "status": "success"
+        },
+        "show ip ospf neighbor": {
+          "raw": "",
+          "parsed": null,
+          "status": "success"
+        },
+        "show cdp neighbors detail": {
+          "raw": null,
+          "parsed": [
+            {
+              "neighbor_name": "R1.lab.local",
+              "mgmt_address": "10.10.10.1",
+              "platform": "Cisco ",
+              "neighbor_interface": "GigabitEthernet0/0",
+              "local_interface": "GigabitEthernet0/0",
+              "neighbor_description": "Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.9(3)M6, RELEASE SOFTWARE (fc1)",
+              "capabilities": "Router Source-Route-Bridge"
+            }
+          ],
+          "status": "success"
+        },
+        "show mac address-table count": {
+          "raw": "\nMac Entries for Vlan 1:\n---------------------------\nDynamic Address Count  : 1\n\nStatic  Address Count  : 0\nTotal Mac Addresses    : 1\n\nMac Entries for Vlan 10:\n---------------------------\nDynamic Address Count  : 0\nStatic  Address Count  : 0\nTotal Mac Addresses    : 0\n\nTotal Mac Address Space Available: 78394504\n",
+          "parsed": null,
+          "status": "success"
+        },
+        "show memory statistics": {
+          "raw": "                Head    Total(b)     Used(b)     Free(b)   Lowest(b)  Largest(b)\nProcessor   146084A0   730025824    63337648   666688176   626545648   623583404\n      I/O    79084A0   214958080   182709656    32248424    32223856    31721308\nSW1#\nS",
+          "parsed": null,
+          "status": "success"
+        }
+      },
+      "facts": {},
+      "status": "failed",
+      "error": "'list' object has no attribute 'get'"
+    }
+  }
+}

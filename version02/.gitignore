@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+.env
+project_js_key.json
+doc_claude/
+netmiko_session.log

@@ -1,0 +1,148 @@
+{
+  "device_id": "Edge-R1",
+  "device_type": "router",
+  "timestamp": "2026-01-01T21:27:08.928145Z",
+  "commands": {
+    "show version": {
+      "raw": "Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.9(3)M6, RELEASE SOFTWARE (fc1)\nTechnical Support: http://www.cisco.com/techsupport\n\nCopyright (c) 1986-2022 by Cisco Systems, Inc.\n\nCompiled Mon 08-Aug-22 15:22 by mcpre\n\n\nROM: Bootstrap program is IOSv\n\nR1 uptime is 28 minutes\nSystem returned to ROM by reload\nSystem image file is \"flash0:/vios-adventerprisek9-m\"\nLast reload reason: Unknown reason\n\n\n\nThis product contains cryptographic features and is subject to United\n\nStates and local country laws governing import, export, transfer and\nuse. Delivery of Cisco cryptographic products does not imply\nthird-party authority to import, export, distribute or use encryption.\nImporters, exporters, distributors and users are responsible for\ncompliance with U.S. and local country laws. By using this product you\nagree to comply with applicable laws and regulations. If you are unable\n\nto comply with U.S. and local laws, return this product immediately.\n\nA summary of U.S. laws governing Cisco cryptographic products may be found at:\nhttp://www.cisco.com/wwl/export/crypto/tool/stqrg.html\n\nIf you require further assistance please contact us by sending email to\nexport@cisco.com.\n\nCisco IOSv (revision 1.0) with  with 722153K/62464K bytes of memory.\n\nProcessor board ID 9I1LBUI0KEIP79FKENTEC\n4 Gigabit Ethernet interfaces\nDRAM configuration is 72 bits wide with parity disabled.\n256K bytes of non-volatile configuration memory.\n2097152K bytes of ATA System CompactFlash 0 (Read/Write)\n0K bytes of ATA CompactFlash 1 (Read/Write)\n\n1024K bytes of ATA CompactFlash 2 (Read/Write)\n0K bytes of ATA CompactFlash 3 (Read/Write)\n\n\n\nConfiguration register is 0x0\n\nR1#",
+      "parsed": [
+        {
+          "software_image": "VIOS-ADVENTERPRISEK9-M",
+          "version": "15.9(3)M6",
+          "release": "fc1",
+          "rommon": "Bootstrap",
+          "hostname": "R1",
+          "uptime": "28 minutes",
+          "uptime_years": "",
+          "uptime_weeks": "",
+          "uptime_days": "",
+          "uptime_hours": "",
+          "uptime_minutes": "28",
+          "reload_reason": "Unknown reason",
+          "running_image": "/vios-adventerprisek9-m",
+          "hardware": [
+            "IOSv"
+          ],
+          "serial": [
+            "9I1LBUI0KEIP79FKENTEC"
+          ],
+          "config_register": "0x0",
+          "mac_address": [],
+          "restarted": ""
+        }
+      ],
+      "status": "success"
+    },
+    "show ip interface brief": {
+      "raw": "\nInterface                  IP-Address      OK? Method Status                Protocol\n\nGigabitEthernet0/0         10.10.10.1      YES NVRAM  up                    up      \nGigabitEthernet0/1         unassigned      YES NVRAM  administratively down down    \nGigabitEthernet0/2         unassigned      YES NVRAM  administratively down down    \nGigabitEthernet0/3         unassigned      YES NVRAM  administratively down down    \nR1#",
+      "parsed": [
+        {
+          "interface": "GigabitEthernet0/0",
+          "ip_address": "10.10.10.1",
+          "status": "up",
+          "proto": "up"
+        },
+        {
+          "interface": "GigabitEthernet0/1",
+          "ip_address": "unassigned",
+          "status": "administratively down",
+          "proto": "down"
+        },
+        {
+          "interface": "GigabitEthernet0/2",
+          "ip_address": "unassigned",
+          "status": "administratively down",
+          "proto": "down"
+        },
+        {
+          "interface": "GigabitEthernet0/3",
+          "ip_address": "unassigned",
+          "status": "administratively down",
+          "proto": "down"
+        }
+      ],
+      "status": "success"
+    },
+    "show ip route": {
+      "raw": "Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP\n       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area \n       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2\n       E1 - OSPF external type 1, E2 - OSPF external type 2\n\n       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2\n       ia - IS-IS inter area, * - candidate default, U - per-user static route\n       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP\n       a - application route\n       + - replicated route, % - next hop override, p - overrides from PfR\n\nGateway of last resort is not set\n\n      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks\nC        10.10.10.0/30 is directly connected, GigabitEthernet0/0\nL        10.10.10.1/32 is directly connected, GigabitEthernet0/0\n\nR1#",
+      "parsed": [
+        {
+          "vrf": "",
+          "protocol": "C",
+          "type": "",
+          "network": "10.10.10.0",
+          "prefix_length": "30",
+          "distance": "",
+          "metric": "",
+          "nexthop_ip": "",
+          "nexthop_vrf": "",
+          "nexthop_if": "GigabitEthernet0/0",
+          "uptime": "",
+          "flag": ""
+        },
+        {
+          "vrf": "",
+          "protocol": "L",
+          "type": "",
+          "network": "10.10.10.1",
+          "prefix_length": "32",
+          "distance": "",
+          "metric": "",
+          "nexthop_ip": "",
+          "nexthop_vrf": "",
+          "nexthop_if": "GigabitEthernet0/0",
+          "uptime": "",
+          "flag": ""
+        }
+      ],
+      "status": "success"
+    },
+    "show ip ospf neighbor": {
+      "raw": "R1#",
+      "parsed": null,
+      "status": "success"
+    },
+    "show ip ospf interface brief": {
+      "raw": "",
+      "parsed": null,
+      "status": "success"
+    },
+    "show cdp neighbors detail": {
+      "raw": "-------------------------\nDevice ID: SW1.lab.local\nEntry address(es): \n  IP address: 10.10.10.2\nPlatform: Cisco ,  Capabilities: Router Switch IGMP \nInterface: GigabitEthernet0/0,  Port ID (outgoing port): GigabitEthernet0/0\nHoldtime : 175 sec\n\nVersion :\nCisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20200924:215240) [sweickge-sep24-2020-l2iol-release 135]\nCopyright (c) 1986-2020 by Cisco Systems, Inc.\nCompiled Tue 29-Sep-20 11:53 by sweickge\n\n\nadvertisement version: 2\nVTP Management Domain: ''\nNative VLAN: 1\nDuplex: full\nManagement address(es): \n  IP address: 10.10.10.2\n\n\nTotal cdp entries displayed : 1\n",
+      "parsed": [
+        {
+          "neighbor_name": "SW1.lab.local",
+          "mgmt_address": "10.10.10.2",
+          "platform": "Cisco ",
+          "neighbor_interface": "GigabitEthernet0/0",
+          "local_interface": "GigabitEthernet0/0",
+          "neighbor_description": "Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20200924:215240) [sweickge-sep24-2020-l2iol-release 135]",
+          "capabilities": "Router Switch IGMP"
+        }
+      ],
+      "status": "success"
+    },
+    "show running-config | section router ospf": {
+      "raw": "",
+      "parsed": null,
+      "status": "success"
+    },
+    "show ip protocols": {
+      "raw": "\n*** IP Routing is NSF aware ***\n\nRouting Protocol is \"application\"\n  Sending updates every 0 seconds\n\n  Invalid after 0 seconds, hold down 0, flushed after 0\n  Outgoing update filter list for all interfaces is not set\n  Incoming update filter list for all interfaces is not set\n  Maximum path: 32\n  Routing for Networks:\n\n  Routing Information Sources:\n\n    Gateway         Distance      Last Update\n  Distance: (default is 4)\n\nR1#",
+      "parsed": null,
+      "status": "success"
+    },
+    "show processes cpu sorted": {
+      "error": "\nPattern not detected: '360' in output.\n\nThings you might try to fix this:\n1. Explicitly set your pattern using the expect_string argument.\n2. Increase the read_timeout to a larger value.\n\nYou can also look at the Netmiko session_log or debug log for more information.\n\n",
+      "status": "failed"
+    },
+    "show memory statistics": {
+      "raw": "\n                Head    Total(b)     Used(b)     Free(b)   Lowest(b)  Largest(b)\n\nProcessor    D056034   584991692    65244188   519747504   503420732   502376468\n      I/O    9356034    63963136    52718488    11244648    11212064    11092784\nR1#",
+      "parsed": null,
+      "status": "success"
+    }
+  },
+  "facts": {},
+  "status": "failed",
+  "error": "'list' object has no attribute 'get'"
+}
